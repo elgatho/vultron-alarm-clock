@@ -1,0 +1,37 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vultron Alarm Clock",
+        "data": {
+          "plan_entities": "Vultron plan sensors (all children)",
+          "travel_minutes": "Travel time (min)",
+          "prep_minutes": "Get-ready time (min)",
+          "skipped_statuses": "Skipped lesson statuses (comma separated)"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "plan_entities": "Vultron plan sensors (all children)",
+          "travel_minutes": "Travel time (min)",
+          "prep_minutes": "Get-ready time (min)",
+          "skipped_statuses": "Skipped lesson statuses (comma separated)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "alarm": {
+        "name": "Alarm for tomorrow"
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Vultron Alarm Clock",
+        "data": {
+          "plan_entities": "Sensory planu Vultron (wszystkie dzieci)",
+          "travel_minutes": "Czas dojazdu (min)",
+          "prep_minutes": "Czas na zebranie się (min)",
+          "skipped_statuses": "Pomijane statusy lekcji (po przecinku)"
+        }
+      }
+    },
+    "abort": { "already_configured": "Integracja jest już skonfigurowana" }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "plan_entities": "Sensory planu Vultron (wszystkie dzieci)",
+          "travel_minutes": "Czas dojazdu (min)",
+          "prep_minutes": "Czas na zebranie się (min)",
+          "skipped_statuses": "Pomijane statusy lekcji (po przecinku)"
+        }
+      }
+    }
+  },
+  "entity": { "sensor": { "alarm": { "name": "Budzik na jutro" } } }
+}

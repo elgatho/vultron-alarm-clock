@@ -1,0 +1,10 @@
+{
+  "domain": "vultron_alarm_clock",
+  "name": "Vultron Alarm Clock",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/CHANGE_ME/vultron-alarm-clock",
+  "issue_tracker": "https://github.com/CHANGE_ME/vultron-alarm-clock/issues",
+  "iot_class": "calculated",
+  "version": "1.0.0"
+}
