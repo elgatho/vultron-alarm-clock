@@ -34,7 +34,13 @@ Zmiana później: *Konfiguruj* przy integracji (opcje).
 
 ## Automatyzacja na iPhonie (codziennie 22:30)
 
-Wymagania: aplikacja **Home Assistant Companion** na iPhonie, połączona z Twoim HA.
+Idea: **jeden** alarm z etykietą `Vultron`. Skrót co wieczór kasuje poprzedni alarm `Vultron` i tworzy nowy na wyliczoną godzinę (albo żadnego, gdy jutro wolne). Nic nie trzeba sprzątać ręcznie.
+
+Wymagania: **iOS 18+** (akcje Zegara *Find Alarms* / *Delete Alarms* / *Add Alarm*) oraz aplikacja **Home Assistant Companion** połączona z Twoim HA.
+
+### 0. Jednorazowo: pozwól kasować bez pytania
+
+*Ustawienia → Skróty → Zaawansowane → Pozwól na usuwanie bez potwierdzania* (*Allow Deleting Without Confirmation*) → **włącz**. Bez tego *Delete Alarms* pyta o potwierdzenie przy każdym uruchomieniu.
 
 ### 1. Skrót (Shortcut)
 
@@ -45,13 +51,15 @@ Aplikacja **Skróty** → **+** → nazwa np. `Vultron budzik`. Dodaj akcje po k
    {{ state_attr('sensor.vultron_alarm_clock_budzik_na_jutro', 'alarm_time') or '' }}
    ```
    Wynik to `HH:MM` (np. `06:45`) albo pusty tekst.
-2. **Jeśli** *Wynik szablonu* **ma dowolną wartość** (*has any value*):
-   1. **Pobierz daty z danych wejściowych** (*Get Dates from Input*) – wejście: wynik szablonu (wskaże dzisiejszą datę z tą godziną; wystarczy, bo budzik dzwoni o najbliższym wystąpieniu godziny, czyli jutro rano po 22:30).
-   2. **Utwórz alarm** (*Create Alarm*): godzina = *Daty* z poprzedniego kroku, etykieta `Vultron`, **Powtarzaj: nigdy**.
-3. **W przeciwnym razie**: *Pokaż powiadomienie* „Jutro bez budzika” (opcjonalnie).
-4. **Koniec Jeśli**.
+2. **Find Alarms** (*Znajdź alarmy*) → filtr **Label** (*Etykieta*) **zawiera** `Vultron`.
+3. **Delete Alarms** (*Usuń alarmy*) → wejście: *Alarms* z kroku 2. (Kasuje stary budzik `Vultron`; zwykłych alarmów bez tej etykiety nie rusza.)
+4. **Jeśli** *Wynik szablonu* (krok 1) **ma dowolną wartość** (*has any value*):
+   1. **Add Alarm** (*Dodaj alarm*): **Time** = *Wynik szablonu*, etykieta `Vultron`, **Powtarzaj: nigdy**.
+5. **Koniec Jeśli**.
 
-> Jeśli akcja *Utwórz alarm* nie przyjmuje daty z kroku 2.1 w Twojej wersji iOS, użyj: **Tekst** → wynik szablonu, **Pobierz daty z danych wejściowych**, i wskaż tę zmienną w polu *Godzina*.
+> Gdy jutro jest wolne, szablon zwraca pusty tekst → krok 4 nic nie tworzy, a stary alarm i tak został skasowany w kroku 3. Jeśli *Add Alarm* nie przyjmie tekstu `HH:MM` w Twojej wersji iOS, wstaw przed nim **Pobierz daty z danych wejściowych** (*Get Dates from Input*) na wyniku szablonu i podaj tę datę w polu *Time*.
+
+Uruchom skrót **raz ręcznie** i przy *Delete Alarms* wybierz **Usuwaj zawsze** (*Delete Always*).
 
 ### 2. Automatyzacja osobista
 
@@ -62,8 +70,8 @@ Aplikacja **Skróty** → **+** → nazwa np. `Vultron budzik`. Dodaj akcje po k
 
 ### Uwagi
 
-- iPhone musi mieć wtedy dostęp do HA (Wi-Fi w domu lub zdalny URL/Nabu Casa) i nie może być w trybie, który blokuje uruchomienie automatyzacji (np. odblokowany lub z włączonym „Uruchom natychmiast”).
-- Alarmy nie-powtarzalne wyłączają się po zadzwonieniu, więc kolejne dni nie nakładają się. iOS nie pozwala skrótom usuwać alarmów – nieaktywne wpisy `Vultron` czyść ręcznie od czasu do czasu.
+- iPhone musi mieć o 22:30 dostęp do HA (Wi-Fi w domu lub zdalny URL/Nabu Casa).
+- *Delete Alarms* nie działa na Apple Watch — czyszczenie rób na iPhonie (automatyzacja i tak jest na nim).
 - Sensor przelicza się przy każdej zmianie planu oraz o 00:00:05 (wtedy „jutro” przeskakuje na kolejny dzień), więc wyzwalaj skrót wieczorem, nie po północy.
 
 ## Testy
